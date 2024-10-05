@@ -45,7 +45,7 @@ cd ../
 ```
 
 ## Datasets
-### KITTI Dataset
+## KITTI Odometry
 Datasets are available at KITTI Odometry benchmark website: [ https://drive.google.com/drive/folders/1Su0hCuGFo1AGrNb_VMNnlF7qeQwKjfhZ](https://www.cvlibs.net/datasets/kitti/eval_odometry.php)
 The data of the KITTI odometry dataset should be organized as follows: 
 
@@ -74,10 +74,8 @@ python train.py
 Please reminder to specify the `GPU`, `data_root`,`log_dir`, `test_list`(sequences for testing) in the scripts.
 You can also get the pretrined wieghts in the pretrain_weights file.
 
-## Quantitative results:
-### KITTI 
-<img src="KITTI.png">
-
+## Clustering Visualization
+<img src="visual.png">
 
 ## Citation
 ```
@@ -88,7 +86,7 @@ You can also get the pretrined wieghts in the pretrain_weights file.
   year={2024}
 }
 ```
-### Acknowledgments
+## Acknowledgments
 We thank the following open-source project for the help of the implementations:
 - [PointNet++](https://github.com/charlesq34/pointnet2) 
 - [PWCLONet] (https://github.com/IRMVLab/PWCLONet)
