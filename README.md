@@ -1,10 +1,12 @@
 # DVLO
-The official codes for ECCV 2024 Oral paper: DVLO: Deep Visual-LiDAR Odometry with Local-to-Global Feature Fusion and Bi-Directional Structure Alignment
+The official codes for ECCV 2024 Oral paper: 'DVLO: Deep Visual-LiDAR Odometry with Local-to-Global Feature Fusion and Bi-Directional Structure Alignment'
+
 Jiuming Liu, Dong Zhuo, Zhiheng Feng, Siting Zhu, Chensheng Peng, Zhe Liu, and Hesheng Wang
 
 ## 📣 News
+- **[5/Oct/2024]** We have released the codes for DVLO!
 - **[12/Aug/2024]** Our work has been selected as **Oral** presentation in ECCV 2024!
-- 
+
 ## Installation
 Our model only depends on the following commonly used packages.
 
