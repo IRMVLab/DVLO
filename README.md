@@ -4,6 +4,7 @@ The official codes for ECCV 2024 Oral paper: 'DVLO: Deep Visual-LiDAR Odometry w
 Jiuming Liu, Dong Zhuo, Zhiheng Feng, Siting Zhu, Chensheng Peng, Zhe Liu, and Hesheng Wang
 
 ## 📣 News
+- **[9/Nov/2024]** We have released the pre-trained weights!
 - **[5/Oct/2024]** We have released the codes for DVLO!
 - **[12/Aug/2024]** Our work has been selected as **Oral** presentation in ECCV 2024!
 
