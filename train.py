@@ -43,7 +43,7 @@ eval_dir = os.path.join(file_dir, 'eval')
 if not os.path.exists(eval_dir): os.makedirs(eval_dir)
 log_dir = os.path.join(file_dir, 'logs')
 if not os.path.exists(log_dir): os.makedirs(log_dir)
-checkpoints_dir = os.path.join(file_dir, 'checkpoints/pwclonet')
+checkpoints_dir = os.path.join(file_dir, 'checkpoints/DVLO')
 if not os.path.exists(checkpoints_dir): os.makedirs(checkpoints_dir)
 
 os.system('cp %s %s' % ('train.py', log_dir))
@@ -60,8 +60,8 @@ def main():
 
     train_dir_list = [0, 1, 2, 3, 4, 5, 6]
     #train_dir_list = [4]
-    test_dir_list = [7,8,9,10]
-    #test_dir_list = [4]
+    # test_dir_list = [7,8,9,10]
+    test_dir_list = [7, 8, 9, 10]
 
     logger = creat_logger(log_dir, args.model_name)
     logger.info('----------------------------------------TRAINING----------------------------------')
@@ -147,7 +147,7 @@ def main():
             pos2, pos1, imback2, imback1, xy2, xy1, T_gt, T_trans, T_trans_inv, Tr, pts_valid2, pts_valid1, sample_id = data
 
             torch.cuda.synchronize()
-            print('load_data_time: ', time.time() - start_train_one_batch)
+            # print('load_data_time: ', time.time() - start_train_one_batch)
 
             pos2 = pos2.cuda()
             pos1 = pos1.cuda()
@@ -164,14 +164,14 @@ def main():
             model = model.train()
 
             torch.cuda.synchronize()
-            print('load_data_time + model_trans_time: ', time.time() - start_train_one_batch)
+            # print('load_data_time + model_trans_time: ', time.time() - start_train_one_batch)
 
             l0_q, l0_t, l1_q, l1_t, l2_q, l2_t, l3_q, l3_t, pc1_ouput, q_gt, t_gt, w_x, w_q = \
                 model(pos2, pos1, imback2, imback1, xy2, xy1, T_gt, T_trans, T_trans_inv, pts_valid2, pts_valid1)
             loss = get_loss(l0_q, l0_t, l1_q, l1_t, l2_q, l2_t, l3_q, l3_t, q_gt, t_gt, w_x, w_q)
 
             torch.cuda.synchronize()
-            print('load_data_time + model_trans_time + forward ', time.time() - start_train_one_batch)
+            # print('load_data_time + model_trans_time + forward ', time.time() - start_train_one_batch)
 
 
 
@@ -180,7 +180,7 @@ def main():
             optimizer.step()
 
             torch.cuda.synchronize()
-            print('load_data_time + model_trans_time + forward + back_ward ', time.time() - start_train_one_batch)
+            # print('load_data_time + model_trans_time + forward + back_ward ', time.time() - start_train_one_batch)
 
             if args.multi_gpu is not None:
                 total_loss += loss.mean().cpu().data * args.batch_size
@@ -251,7 +251,7 @@ def eval_pose(model, test_list, epoch):
             pos2, pos1, imback2, imback1, xy2, xy1, T_gt, T_trans, T_trans_inv, Tr, pts_valid2, pts_valid1, sample_id = data
 
             torch.cuda.synchronize()
-            print('data_prepare_time: ', time.time() - start_prepare)
+            # print('data_prepare_time: ', time.time() - start_prepare)
 
             pos2 = pos2.cuda()
             pos1 = pos1.cuda()
@@ -276,7 +276,7 @@ def eval_pose(model, test_list, epoch):
                     model(pos2, pos1, imback2, imback1, xy2, xy1, T_gt, T_trans, T_trans_inv, pts_valid2, pts_valid1)
 
                 torch.cuda.synchronize()
-                print('eval_one_time: ', time.time() - start_time)
+                # print('eval_one_time: ', time.time() - start_time)
 
                 torch.cuda.synchronize()
                 total_time += (time.time() - start_time)
@@ -321,12 +321,12 @@ def eval_pose(model, test_list, epoch):
         avg_time = total_time / 4541
 
 
-        print('avg_time: ', avg_time)
+        # print('avg_time: ', avg_time)
 
         T = T.reshape(-1, 12)
 
         fname_txt = os.path.join(log_dir, str(item).zfill(2) + '_pred.npy')
-        data_dir = os.path.join(eval_dir, 'pwclonet_' + str(item).zfill(2))
+        data_dir = os.path.join(eval_dir, 'DVLO_' + str(item).zfill(2))
         if not os.path.exists(data_dir):
             os.makedirs(data_dir)
 
