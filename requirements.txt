@@ -1,0 +1,17 @@
+easydict==1.12
+einops==0.4.1
+lib==4.0.0
+matplotlib==2.1.1
+numpy==1.13.3
+opencv_python==4.5.5.64
+openpyxl==3.1.2
+Pillow==11.0.0
+PyYAML==6.0.2
+scipy==0.19.1
+setuptools==59.6.0
+Shapely==1.8.4
+tensorflow==2.18.0
+tensorflow_gpu==2.6.2
+timm==0.6.12
+torch==1.10.1+cu113
+tqdm==4.62.3
