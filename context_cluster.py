@@ -70,8 +70,6 @@ class Cluster(nn.Module):
         b0, c0, h0, w0 = x.shape
         assert h0 % self.fold_h == 0 and w0 % self.fold_w == 0, \
             f"Ensure the feature map size ({h0}*{w0}) can be divided by fold {self.fold_h}*{self.fold_w}"
-        x = rearrange(x, "b c (f1 h) (f2 w) -> (b f1 f2) c h w", f1=self.fold_h, f2=self.fold_w)
-        value = rearrange(value, "b c (f1 h) (f2 w) -> (b f1 f2) c h w", f1=self.fold_h, f2=self.fold_w)
 
         regions_h = size_range[1] / self.fold_h
         regions_w = size_range[0] / self.fold_w
@@ -92,11 +90,17 @@ class Cluster(nn.Module):
             points_batch_split = points_split_origin[batch:batch + 1, :][mask_origin[batch:batch + 1, :]][:, :2] # [n, 2]
             points_split[batch, :points_batch_split.shape[0], :] = points_batch_split  # [b*blocks, n, 2]
         mask_points_split = torch.any(points_split != 0, dim=-1, keepdim=False).to(torch.bool).cuda()  # [b*blocks, n]
-        b, c, h, w = x.shape
         points_split[:, :, 0] = points_split[:, :, 0] / (size_range[0] - 1.0) * 2.0 - 1.0
         points_split[:, :, 1] = points_split[:, :, 1] / (size_range[1] - 1.0) * 2.0 - 1.0
-        centers = Feature_Gather(x, points_split)  # points是直接对x的feature gather
-        value_centers = Feature_Gather(value, points_split)
+
+        centers = Feature_Gather(x.repeat(num_regions, 1, 1, 1), points_split)  # points是直接对x的feature gather
+        value_centers = Feature_Gather(value.repeat(num_regions, 1, 1, 1), points_split)
+
+        x = rearrange(x, "b c (f1 h) (f2 w) -> (b f1 f2) c h w", f1=self.fold_h, f2=self.fold_w)
+        value = rearrange(value, "b c (f1 h) (f2 w) -> (b f1 f2) c h w", f1=self.fold_h, f2=self.fold_w)
+
+        b, c, h, w = x.shape
+
         sim = torch.sigmoid(
             self.sim_beta +
             self.sim_alpha * pairwise_cos_sim(
